@@ -96,6 +96,7 @@
     [_calcBar addConstraints:@[calenderBtnCenterX, calenderBtnCenterY, calenderBtnWidth]];
     
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+    fmt.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     switch (_selectedIndex) {
         case 0:
             fmt.dateFormat = @"yyyy-MM-dd";
@@ -183,7 +184,7 @@
     if (!timeZone) return;
     self.currentTimeZone = timeZone;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone systemTimeZone];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     [dateFormatter setDateFormat: @"yyyy-MM-dd"];
     NSDate *max_date = [NSDate date];
     // 如果和当前时区和系统时区不一致,则默认加一天
@@ -210,7 +211,7 @@
 - (void)setMinDateStr:(NSString *)minDateStr {
     _minDateStr = minDateStr;
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone systemTimeZone];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     [dateFormatter setDateFormat: @"yyyyMMddHHmmss"];
     _minDate = [dateFormatter dateFromString:[NSString stringWithFormat:@"%@235959",minDateStr]];
     [self updateSelectDateRangeWithTimeZone:self.currentTimeZone];
@@ -311,7 +312,7 @@
 //判断切换日期按钮的可用状态
 - (void)clickButtonEable {
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.timeZone = [NSTimeZone systemTimeZone];
+    fmt.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     fmt.dateFormat = @"dd";
     NSString *selectDay = [fmt stringFromDate:_selectDate];
     NSString *maxDay = [fmt stringFromDate:_maxDate];
@@ -339,7 +340,7 @@
 
 - (void)changeCalenderDate {
     NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.timeZone = [NSTimeZone systemTimeZone];
+    dateFormatter.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
 
     NSTimeInterval timeInterval = [_selectDate timeIntervalSinceDate:_maxDate];
     if (timeInterval > -24 * 60 * 60) {
@@ -382,7 +383,7 @@
 
 - (void)datePicker:(HooDatePicker *)datePicker didSelectedDate:(NSDate*)date {
     NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
-    fmt.timeZone = [NSTimeZone systemTimeZone];
+    fmt.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
     fmt.dateFormat = @"dd";
     NSString *day = [fmt stringFromDate:date];
     NSString *selectDay = [fmt stringFromDate:_selectDate];
@@ -435,6 +436,7 @@
     if (_selectDate != selectDate) {
         _selectDate = selectDate;
         NSDateFormatter *fmt = [[NSDateFormatter alloc] init];
+        fmt.timeZone = [NSTimeZone timeZoneWithAbbreviation:@"UTC"];
         switch (_selectedIndex) {
             case 0:
                 fmt.dateFormat = @"yyyy-MM-dd";
